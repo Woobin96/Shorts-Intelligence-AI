@@ -1,31 +1,58 @@
-from PySide6.QtWidgets import QWidget
-from PySide6.QtWidgets import QVBoxLayout
-from PySide6.QtWidgets import QHBoxLayout
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel
 
 from app.ui.widgets.info_card import InfoCard
 
 
 class DashboardPage(QWidget):
-
     def __init__(self):
         super().__init__()
 
         main_layout = QVBoxLayout()
+        main_layout.setContentsMargins(35, 25, 35, 35)
+        main_layout.setSpacing(25)
 
         card_layout = QHBoxLayout()
+        card_layout.setSpacing(20)
+        card_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        card_layout.addWidget(
-            InfoCard("신규 쇼츠", "0")
-        )
+        card_layout.addWidget(InfoCard("신규 쇼츠", "0"))
+        card_layout.addWidget(InfoCard("분석 완료", "0"))
+        card_layout.addWidget(InfoCard("바이럴 후보", "0"))
+        card_layout.addStretch()
 
-        card_layout.addWidget(
-            InfoCard("분석 완료", "0")
-        )
+        recent_title = QLabel("최근 발견한 쇼츠")
+        recent_title.setStyleSheet("""
+            color: #111827;
+            font-size: 20px;
+            font-weight: 800;
+        """)
 
-        card_layout.addWidget(
-            InfoCard("바이럴 후보", "0")
+        recent_box = QLabel(
+            "아직 발견한 쇼츠가 없습니다.\n\n"
+            "나중에 YouTube API가 연결되면 여기에 신규 쇼츠가 표시됩니다."
         )
+        recent_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        recent_box.setMinimumHeight(220)
+        recent_box.setStyleSheet("""
+            QLabel {
+                color: #6B7280;
+                background: #FFFFFF;
+                border: 1px solid #E5E7EB;
+                border-radius: 18px;
+                font-size: 14px;
+            }
+        """)
 
         main_layout.addLayout(card_layout)
+        main_layout.addWidget(recent_title)
+        main_layout.addWidget(recent_box)
+        main_layout.addStretch()
 
         self.setLayout(main_layout)
+
+        self.setStyleSheet("""
+            DashboardPage {
+                background: #F3F4F6;
+            }
+        """)
